@@ -1,7 +1,5 @@
 "use strict";
 
-var Outline = {}; // require('./outline');
-
-Outline.View = require('./outline_view');
+var Outline = require('./outline');
 
 module.exports = Outline;
