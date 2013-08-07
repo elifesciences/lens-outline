@@ -1,0 +1,83 @@
+/*
+Outline
+--------------------------------------- */
+
+.article .outline {
+  background: #fff;
+  position: absolute;
+  left: 0px;
+  width:60px;
+  top: 0px;
+  bottom: 0px;
+}
+
+.article .outline .node.cover {
+  background: #5c6570;
+  opacity: 1;
+}
+
+.article .outline .node .arrow {
+  display: none;
+  position: absolute;
+  top: -7px;
+  left: -17px;
+  
+  width: 0; 
+  height: 0; 
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid black;
+}
+
+.article .outline .node.active .arrow {
+  display: block;
+}
+
+.article .outline .visible-area {
+  position: absolute;
+  cursor: pointer;
+  top: 40px;
+  left: 0px;
+  right: 0px;
+  height: 80px;
+  z-index: 2000;
+  background-color: rgba(0,0,0, 0.2);
+}
+
+.article .outline .visible-area:hover {
+  background-color: rgba(0,0,0, 0.3); 
+}
+
+.article .outline .node {
+  margin: 0 5px;
+  width: 50px;
+  background: rgba(0,0,0, 0.4);
+  opacity: 0.1;
+  cursor: pointer;
+}
+
+#container .article .outline .node:hover {
+  opacity: 0.6;
+}
+
+.article .outline .text {
+}
+
+.article .outline .heading {
+  background: rgba(0,0,0, 0.5);
+}
+
+#container .article .outline .node.active {
+  opacity: 1.0;
+}
+
+.article .outline.figure .node.highlighted {
+  opacity: 0.7;
+  background: rgba(145, 187, 4, 1);
+  border: 1px solid rgba(145, 187, 4, 1);
+}
+
+.article .outline.publication .node.highlighted {
+  opacity: 0.7;
+  background: rgba(11, 157, 217, 1);
+}
