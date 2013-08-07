@@ -1,0 +1,22 @@
+{
+  "name"          : "lens-outline",
+  "description"   : "Visual document outline for Substance Documents",
+  "url"           : "http://github.com/elifesciences/lens-outline",
+  "keywords"      : ["document map", "document navigation", "document visualization"],
+  "author"        : "Michael Aufreiter",
+  "contributors"  : ["Samo Korosec", "Ivan Grubisic", "Ian Mulvany"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elifesciences/lens-outline.git"
+  },
+  "dependencies": {
+    "underscore": "",
+    "substance-util": "",
+    "substance-application": ""
+  },
+  "devDependencies": {
+    "substance-test": "",
+    "substance-document": ""
+  },
+  "version"       : "0.1.0"
+}
