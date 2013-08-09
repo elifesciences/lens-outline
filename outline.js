@@ -7,10 +7,17 @@ var View = require("substance-application").View;
 // 
 // Takes a surface, which is projected to a minimap
 
-var Outline = function(surface, options) {
+var Outline = function(surface) {
   View.call(this);
 
   this.surface = surface;
+
+  // Initial view state, telling which node is selected and which are highlighted
+  this.state = {
+    selectedNode: null,
+    highlightedNodes: []
+  };
+
   this.$el.addClass('lens-outline');
 
   _.bindAll(this, 'mouseDown', 'mouseUp', 'mouseMove');
@@ -47,7 +54,6 @@ Outline.Prototype = function() {
 
     var factor = (contentHeight / panelHeight);
     this.factor = factor;
-
 
     // Render nodes
     // --------
@@ -120,36 +126,30 @@ Outline.Prototype = function() {
   //     //   that.markActiveHeading();
   // };
 
-  this.setActiveNode = function() {
-    console.log('Setting active node...');
-  };
 
   // Update Outline
   // -------------
   // 
+  // Usage:
+  // 
+  // outline.update({
+  //   selectedNode: "node_14",
+  //   highlightNodes: []
+  // })
 
-  this.update = function() {
-    var that = this;
-    // var doc = this.model.document;
+  this.update = function(state) {
+    this.state = state;
 
     // Reset
-    this.$('.node').removeClass('active').removeClass('highlighted');
-    that.$el.removeClass('figure').removeClass('citation');
+    this.$('.node').removeClass('selected').removeClass('highlighted');
 
-    // 1. Mark active node
-    // if (this.model.node) {
-    //   this.$('#outline_'+_.htmlId(this.model.node)).addClass('active');  
-    // }
+    // 1. Mark selected node
+    this.$('#outline_' + state.selectedNode).addClass('selected');
 
-    if (this.model.resource) {
-      that.$('.outline').addClass(this.model.resourceType);
-
-      var annotations = doc.find('reverse_annotations', this.model.resource);
-      _.each(annotations, function(a) {
-        var node = a.source;
-        that.$('#outline_'+_.htmlId(node)).addClass('highlighted');
-      });
-    }
+    // 2. Mark highlighted nodes
+    _.each(state.highlightedNodes, function(n) {
+      this.$('#outline_'+n).addClass('highlighted');
+    }, this);
   };
 
 
@@ -189,7 +189,6 @@ Outline.Prototype = function() {
       this.surface.$el.scrollTop(scroll);
     }
   };
-
 };
 
 Outline.Prototype.prototype = View.prototype;
