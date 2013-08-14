@@ -58,7 +58,7 @@ Outline.Prototype = function() {
     // Render nodes
     // --------
 
-    var nodes = this.surface.writer.getNodes();
+    var nodes = this.surface.doc.getNodes();
 
     _.each(nodes, function(node) {
       var dn = this.surface.$('#'+node.id);
