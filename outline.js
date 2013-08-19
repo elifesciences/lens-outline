@@ -142,8 +142,12 @@ Outline.Prototype = function() {
 
     // Reset
     this.$('.node').removeClass('selected').removeClass('highlighted');
+    this.$el.removeClass('figures').removeClass('citations');
 
-    // 1. Mark selected node
+    // Set context
+    this.$el.addClass(state.context);
+
+    // Mark selected node
     this.$('#outline_' + state.selectedNode).addClass('selected');
 
     // 2. Mark highlighted nodes
