@@ -20,7 +20,7 @@ var Outline = function(surface) {
 
   this.$el.addClass('lens-outline');
 
-  _.bindAll(this, 'mouseDown', 'mouseUp', 'mouseMove');
+  _.bindAll(this, 'mouseDown', 'mouseUp', 'mouseMove', 'updateVisibleArea');
 
   // Mouse event handlers
   // --------
@@ -36,13 +36,11 @@ Outline.Prototype = function() {
   // -------------
   // 
   // Renders outline and calculates bounds
-  // Used for auto-selecting current heading
 
   this.render = function() {
     var that = this;
     var totalHeight = 0;
 
-    // TODO: rather use recalibrate workflow
     this.$el.empty();
     this.$el.append('<div class="visible-area"></div>');
 
@@ -50,7 +48,7 @@ Outline.Prototype = function() {
     // --------
 
     var contentHeight = this.surface.$('.nodes').height();
-    var panelHeight = this.surface.$el.height(); // this.$el.height();
+    var panelHeight = this.surface.$el.height();
 
     var factor = (contentHeight / panelHeight);
     this.factor = factor;
@@ -83,48 +81,24 @@ Outline.Prototype = function() {
     // Init scroll pos
     var scrollTop = that.surface.$el.scrollTop();
 
-    this.$('.visible-area').css({
-      "top": scrollTop / factor,
-      "height": panelHeight / factor
-    });
-    
-    // Listen for scroll changes update outline scroll pos accordingly
-    // --------
-    // 
-
-    this.surface.$el.unbind('scroll');
-    this.surface.$el.scroll(function() {
-      var scrollTop = that.surface.$el.scrollTop();
-
-      // Update visible area
-      that.$('.visible-area').css({
-        "top": scrollTop / factor,
-        "height": that.$el.height() / factor
-      });
-      //   that.markActiveHeading();
-    });
+    // Wait for the DOM then draw visible area
+    _.delay(this.updateVisibleArea.bind(this, scrollTop), 1);
 
     return this;
   };
 
 
-  // Adjust
+  // Update visible area
   // -------------
   // 
-  // Recalibrate (.e.g after resize)
+  // Should get called from the user when the content area is scrolled
 
-  // thais.adjust = function() {
-
-  //   // Current scrolltop
-  //   var scrollTop = that.surface.$el.scrollTop();
-
-  //   // Update visible area
-  //   that.$('.visible-area').css({
-  //     "top": scrollTop / factor,
-  //     "height": that.$el.height() / factor
-  //   });
-  //     //   that.markActiveHeading();
-  // };
+  this.updateVisibleArea = function(scrollTop) {
+    this.$('.visible-area').css({
+      "top": scrollTop / this.factor,
+      "height": this.surface.$el.height() / this.factor
+    });
+  };
 
 
   // Update Outline
@@ -162,7 +136,7 @@ Outline.Prototype = function() {
   // 
 
   this.mouseDown = function(e) {
-    this.mouseDown = true;
+    this._mouseDown = true;
     var y = e.pageY;
 
     // Find offset to visible-area.top
@@ -176,7 +150,7 @@ Outline.Prototype = function() {
   // Mouse lifted, no scroll anymore
 
   this.mouseUp = function() {
-    this.mouseDown = false;
+    this._mouseDown = false;
   },
 
   // Handle Scroll
@@ -186,7 +160,8 @@ Outline.Prototype = function() {
   // .visible-area handle
 
   this.mouseMove = function(e) {
-    if (this.mouseDown) {
+    if (this._mouseDown) {
+      console.log('movin');
       var y = e.pageY;
       // find offset to visible-area.top
       var scroll = (y - this.offset)*this.factor;
