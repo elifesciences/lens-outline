@@ -161,7 +161,6 @@ Outline.Prototype = function() {
 
   this.mouseMove = function(e) {
     if (this._mouseDown) {
-      console.log('movin');
       var y = e.pageY;
       // find offset to visible-area.top
       var scroll = (y - this.offset)*this.factor;
