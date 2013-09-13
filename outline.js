@@ -1,6 +1,7 @@
 "use strict";
 
 var View = require("substance-application").View;
+var $$ = require("substance-application").$$;
 
 // Lens.Outline
 // ==========================================================================
@@ -41,8 +42,9 @@ Outline.Prototype = function() {
     var that = this;
     var totalHeight = 0;
 
-    this.$el.empty();
-    this.$el.append('<div class="visible-area"></div>');
+    var fragment = document.createDocumentFragment();
+    fragment.appendChild($$('.visible-area'));
+    
 
     // Initial Calculations
     // --------
@@ -56,33 +58,39 @@ Outline.Prototype = function() {
     // Render nodes
     // --------
 
-    var nodes = this.surface.doc.getNodes();
+    var container = this.surface.doc.container;
+    var nodes = container.getTopLevelNodes();
 
     _.each(nodes, function(node) {
       var dn = this.surface.$('#'+node.id);
       var height = dn.outerHeight(true) / factor;
-        
+
       // Outline node construction
       var $node = $('<div class="node">')
         .attr({
           id: 'outline_'+node.id,
         })
-        .addClass(node.type)
         .css({
           "position": "absolute",
           "height": height-1,
           "top": totalHeight
-        }).append('<div class="arrow">');
-
-      this.$el.append($node);
+        })
+        .addClass(node.type)
+        .append('<div class="arrow">');
+      fragment.appendChild($node[0]);
       totalHeight += height;
     }, this);
 
     // Init scroll pos
     var scrollTop = that.surface.$el.scrollTop();
 
-    // Wait for the DOM then draw visible area
-    _.delay(this.updateVisibleArea.bind(this, scrollTop), 1);
+    var that = this;
+
+    _.delay(function() {
+      that.el.innerHTML = "";
+      that.el.appendChild(fragment);
+      that.updateVisibleArea(scrollTop);
+    }, 1);
 
     return this;
   };
