@@ -2,6 +2,7 @@
 
 var View = require("substance-application").View;
 var $$ = require("substance-application").$$;
+var _ = require("underscore");
 
 // Lens.Outline
 // ==========================================================================
@@ -86,11 +87,10 @@ Outline.Prototype = function() {
 
     var that = this;
 
-    _.delay(function() {
-      that.el.innerHTML = "";
-      that.el.appendChild(fragment);
-      that.updateVisibleArea(scrollTop);
-    }, 1);
+
+    that.el.innerHTML = "";
+    that.el.appendChild(fragment);
+    that.updateVisibleArea(scrollTop);
 
     return this;
   };
@@ -120,6 +120,7 @@ Outline.Prototype = function() {
   // })
 
   this.update = function(state) {
+    this.render();
     this.state = state;
 
     // Reset
