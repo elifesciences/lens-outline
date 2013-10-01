@@ -41,11 +41,11 @@ Outline
   right: 0px;
   height: 80px;
   z-index: 2000;
-  background-color: rgba(0,0,0, 0.2);
+  background-color: rgba(0,0,0, 0.1);
 }
 
 .lens-outline .visible-area:hover {
-  background-color: rgba(0,0,0, 0.3); 
+  background-color: rgba(0,0,0, 0.15); 
 }
 
 .lens-outline .node {
