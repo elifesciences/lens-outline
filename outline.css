@@ -82,7 +82,6 @@ Outline
 .lens-outline.figures .node.highlighted {
   opacity: 0.7;
   background: rgba(145, 187, 4, 1);
-  /*border: 1px solid rgba(145, 187, 4, 1);*/
 }
 
 /* Blueish highlighted nodes (citations) */
@@ -95,7 +94,6 @@ Outline
 .lens-outline.figures .node.selected {
   opacity: 1;
   background: rgba(145, 187, 4, 1);
-  /*border: 1px solid rgba(145, 187, 4, 1);*/
 }
 
 /* Blueish highlighted nodes (citations) */

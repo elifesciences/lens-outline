@@ -14,9 +14,5 @@
     "substance-util": "",
     "substance-application": ""
   },
-  "devDependencies": {
-    "substance-test": "",
-    "substance-document": ""
-  },
   "version"       : "0.1.0"
 }
