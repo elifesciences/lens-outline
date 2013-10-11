@@ -22,7 +22,7 @@
     "substance-util": "git+https://github.com/substance/util.git#0.3.x",
     "substance-application": "git+https://github.com/substance/application.git#0.2.x"
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "engines": {
     "node": ">=0.8.x",
     "npm": ">=1.1.x"
