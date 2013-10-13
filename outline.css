@@ -6,7 +6,7 @@ Outline
   background: #fff;
   position: absolute;
   left: 0px;
-  width:60px;
+  width:40px;
   top: 0px;
   bottom: 0px;
 }
@@ -50,7 +50,7 @@ Outline
 
 .lens-outline .node {
   margin: 0 5px;
-  width: 50px;
+  width: 30px;
   background: rgba(0,0,0, 0.4);
   opacity: 0.1;
   cursor: pointer;
