@@ -28,8 +28,9 @@ var Outline = function(surface) {
   // --------
 
   this.$el.mousedown(this.mouseDown);
-  this.$el.mousemove(this.mouseMove);
-  this.$el.mouseup(this.mouseUp);
+  
+  $(window).mousemove(this.mouseMove);
+  $(window).mouseup(this.mouseUp);
 };
 
 Outline.Prototype = function() {
@@ -44,7 +45,8 @@ Outline.Prototype = function() {
     var totalHeight = 0;
 
     var fragment = document.createDocumentFragment();
-    fragment.appendChild($$('.visible-area'));
+    this.visibleArea = $$('.visible-area');
+    fragment.appendChild(this.visibleArea);
     
 
     // Initial Calculations
@@ -85,8 +87,6 @@ Outline.Prototype = function() {
     // Init scroll pos
     var scrollTop = that.surface.$el.scrollTop();
 
-    var that = this;
-
 
     that.el.innerHTML = "";
     that.el.appendChild(fragment);
@@ -102,7 +102,7 @@ Outline.Prototype = function() {
   // Should get called from the user when the content area is scrolled
 
   this.updateVisibleArea = function(scrollTop) {
-    this.$('.visible-area').css({
+    $(this.visibleArea).css({
       "top": scrollTop / this.factor,
       "height": this.surface.$el.height() / this.factor
     });
@@ -148,8 +148,14 @@ Outline.Prototype = function() {
     this._mouseDown = true;
     var y = e.pageY;
 
-    // Find offset to visible-area.top
-    this.offset = y - $('.visible-area').position().top;
+    if (e.target !== this.visibleArea) {
+      // Jump to mousedown position
+      this.offset = $(this.visibleArea).height()/2;
+      this.mouseMove(e);
+    } else {
+      this.offset = y - $(this.visibleArea).position().top;  
+    }
+
     return false;
   };
 
@@ -160,7 +166,7 @@ Outline.Prototype = function() {
 
   this.mouseUp = function() {
     this._mouseDown = false;
-  },
+  };
 
   // Handle Scroll
   // -----------------
