@@ -44,8 +44,12 @@ Outline
   background-color: rgba(0,0,0, 0.2);
 }
 
-.lens-outline .visible-area:hover {
+.lens-outline:hover .visible-area {
   background-color: rgba(0,0,0, 0.25); 
+}
+
+.lens-outline .visible-area:hover {
+  background-color: rgba(0,0,0, 0.3); 
 }
 
 .lens-outline .node {
@@ -57,12 +61,12 @@ Outline
 }
 
 .lens-outline .node:hover {
-  opacity: 0.4;
+  /*opacity: 0.4;*/
 }
 
-.lens-outline .node.highlighted:hover {
+/*.lens-outline .node.highlighted:hover {
   opacity: 1.0;
-}
+}*/
 
 .lens-outline .text {
 }
