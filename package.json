@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "underscore": "1.5.x",
-    "substance-util": "git+https://github.com/substance/util.git#0.3.x",
-    "substance-application": "git+https://github.com/substance/application.git#0.2.x"
+    "substance-util": "git+https://github.com/substance/util.git#lens",
+    "substance-application": "git+https://github.com/substance/application.git#lens"
   },
   "version": "0.2.0",
   "engines": {
