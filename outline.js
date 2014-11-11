@@ -53,6 +53,12 @@ Outline.Prototype = function() {
     var factor = (contentHeight / panelHeight);
     this.factor = factor;
 
+    if (contentHeight > panelHeight) {
+      $(this.el).removeClass('hidden');
+    } else {
+      $(this.el).addClass('hidden');
+    }
+
     // Render nodes
     // --------
 
