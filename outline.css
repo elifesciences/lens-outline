@@ -88,10 +88,12 @@ Outline
 
 /* Greenish highlighted nodes (figures) */
 
-.lens-outline.figures .node.highlighted {
+.lens-outline.figures .node.highlighted, .lens-outline.math .node.highlighted {
   opacity: 0.7;
   background: rgba(145, 187, 4, 1);
 }
+
+
 
 /* Blueish highlighted nodes (citations) */
 
