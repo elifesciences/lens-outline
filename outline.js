@@ -14,13 +14,8 @@ var Outline = function(surface) {
 
   this.surface = surface;
 
-  // Initial view state, telling which node is selected and which are highlighted
-  this.state = {
-    selectedNode: null,
-    highlightedNodes: []
-  };
-
   this.$el.addClass('lens-outline');
+  this.$el.addClass(surface.docCtrl.getContainer().id);
 
   _.bindAll(this, 'mouseDown', 'mouseUp', 'mouseMove', 'updateVisibleArea');
 
@@ -118,22 +113,15 @@ Outline.Prototype = function() {
   //   highlightNodes: []
   // })
 
-  this.update = function(state) {
+  this.update = function(options) {
     this.render();
-    this.state = state;
-
     // Reset
     this.$('.node').removeClass('selected').removeClass('highlighted');
-    this.$el.removeClass('figures').removeClass('citations');
-
-    // Set context
-    this.$el.addClass(state.context);
-
+    this.el.dataset.highlightClass = options.highlightClass;
     // Mark selected node
-    this.$('#outline_' + state.selectedNode).addClass('selected');
-
-    // 2. Mark highlighted nodes
-    _.each(state.highlightedNodes, function(n) {
+    this.$('#outline_' + options.selectedNode).addClass('selected');
+    // Mark highlighted nodes
+    _.each(options.highlightedNodes, function(n) {
       this.$('#outline_'+n).addClass('highlighted');
     }, this);
   };
