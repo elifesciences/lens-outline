@@ -110,6 +110,7 @@ Outline.Prototype = function() {
     var contentHeight = this.$nodes.height();
     var panelHeight = this.surface.$el.height();
     var surfaceTop = this.$nodes.offset().top;
+
     this.factor = (contentHeight / panelHeight);
 
     // remove previous overlays
@@ -122,11 +123,14 @@ Outline.Prototype = function() {
     if (options.selectedNode && options.selectedNode !== "all") {
       var selectedNode = this.surface.findNodeView(options.selectedNode);
       if (selectedNode) {
-        this.addOverlay(selectedNode, surfaceTop);
+        // this.addOverlay(selectedNode, surfaceTop);
+        var $el = this.addOverlay(selectedNode, surfaceTop);
+        $el.addClass('selected-node');
       } else {
         console.error("Could not find 'selectedNode'", options.selectedNode);
       }
     }
+
     // Mark highlighted nodes
     _.each(options.highlightedNodes, function(nodeId) {
       if (!nodeId) return;

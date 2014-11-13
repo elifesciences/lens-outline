@@ -11,12 +11,8 @@ Outline
   bottom: 0px;
 }
 
-.lens-outline .node.cover {
-  /*background: #5c6570;*/
-  /*opacity: 1;*/
-}
 
-.lens-outline .node .arrow {
+/*.lens-outline .node .arrow {
   display: none;
   position: absolute;
   top: -7px;
@@ -27,11 +23,11 @@ Outline
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
   border-left: 8px solid black;
-}
+}*/
 
-.lens-outline .node.selected .arrow {
+/*.lens-outline .node.selected .arrow {
   display: block;
-}
+}*/
 
 .lens-outline .node.overlay {
   position: absolute;
@@ -91,6 +87,14 @@ Outline
   opacity: 0.7;
 }
 
+.lens-outline .node.selected-node.overlay {
+  background: rgba(0,0,0,0.5);
+  margin-left: 5px;
+  width: 10px;
+  border-radius: 5px;
+  height: 10px !important;
+}
+
 /* Greenish highlighted nodes (figures) */
 
 .lens-outline[data-highlight-class=figures] .overlay,
@@ -112,7 +116,7 @@ Outline
   background: rgba(11, 157, 217, 1);
 }
 
-/* Blueish highlighted nodes (citations) */
+/* Blueish highlighted and selected nodes (citations) */
 
 .lens-outline[data-highlight-class=citations] .overlay.selected {
   opacity: 1;
