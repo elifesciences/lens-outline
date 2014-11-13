@@ -13,9 +13,13 @@ var Outline = function(surface) {
   View.call(this);
 
   this.surface = surface;
+  // initialized on first update
+  this.$nodes = null;
 
   this.$el.addClass('lens-outline');
   this.$el.addClass(surface.docCtrl.getContainer().id);
+
+  this.overlays = [];
 
   _.bindAll(this, 'mouseDown', 'mouseUp', 'mouseMove', 'updateVisibleArea');
 
@@ -36,56 +40,16 @@ Outline.Prototype = function() {
   // Renders outline and calculates bounds
 
   this.render = function() {
-    var that = this;
-    var totalHeight = 0;
-
-    var fragment = document.createDocumentFragment();
-    this.visibleArea = $$('.visible-area');
-    fragment.appendChild(this.visibleArea);
-
-
-    // Initial Calculations
-    // --------
-
     var contentHeight = this.surface.$('.nodes').height();
     var panelHeight = this.surface.$el.height();
-
-    var factor = (contentHeight / panelHeight);
-    this.factor = factor;
-
-    // Render nodes
-    // --------
-
-    var container = this.surface.docCtrl.container;
-    var nodes = container.getTopLevelNodes();
-
-    _.each(nodes, function(node) {
-      var $dn = $(this.surface.findNodeView(node.id));
-      var height = $dn.outerHeight(true) / factor;
-
-      // Outline node construction
-      var $node = $('<div class="node">')
-        .attr({
-          id: 'outline_'+node.id,
-        })
-        .css({
-          "position": "absolute",
-          "height": height-1,
-          "top": totalHeight
-        })
-        .addClass(node.type)
-        .append('<div class="arrow">');
-      fragment.appendChild($node[0]);
-      totalHeight += height;
-    }, this);
+    this.factor = (contentHeight / panelHeight);
+    this.visibleArea = $$('.visible-area');
 
     // Init scroll pos
-    var scrollTop = that.surface.$el.scrollTop();
-
-    that.el.innerHTML = "";
-    that.el.appendChild(fragment);
-    that.updateVisibleArea(scrollTop);
-
+    var scrollTop = this.surface.$el.scrollTop();
+    this.el.innerHTML = "";
+    this.el.appendChild(this.visibleArea);
+    this.updateVisibleArea(scrollTop);
     return this;
   };
 
@@ -102,6 +66,27 @@ Outline.Prototype = function() {
     });
   };
 
+  this.addOverlay = function(el, surfaceTop) {
+    var $el = $(el);
+    var height = $el.outerHeight(true) / this.factor;
+    var top = ($el.offset().top - surfaceTop) / this.factor;
+
+    // HACK: make all highlights at least 3 pxls high, and centered around the desired top pos
+    if (height < 3) {
+      height = 3;
+      top = top - 1.5 + 0.5*height;
+    }
+
+    console.log("####", height);
+    var $overlay = $('<div>')
+      .addClass('node overlay')
+      .css({
+        "height": height,
+        "top": top
+      });
+    this.overlays.push($overlay[0]);
+    this.$el.append($overlay);
+  };
 
   // Update Outline
   // -------------
@@ -114,18 +99,47 @@ Outline.Prototype = function() {
   // })
 
   this.update = function(options) {
-    this.render();
-    // Reset
-    this.$('.node').removeClass('selected').removeClass('highlighted');
+    options = options || {};
+
+    // initialized lazily as this element is not accessible earlier (e.g. during construction)
+    if (!this.$nodes) this.$nodes = this.surface.$('.nodes');
+
+    var scrollTop = this.surface.$el.scrollTop();
+    this.updateVisibleArea(scrollTop);
+
+
+    // get the new dimensions
+    var contentHeight = this.$nodes.height();
+    var panelHeight = this.surface.$el.height();
+    var surfaceTop = this.$nodes.offset().top;
+    this.factor = (contentHeight / panelHeight);
+
+    // remove previous overlays
+    $(this.overlays).remove();
+    this.overlays = [];
+
+    // set the highlight class which controls the color if the overlays.
     this.el.dataset.highlightClass = options.highlightClass;
-    // Mark selected node
-    this.$('#outline_' + options.selectedNode).addClass('selected');
+
+    if (options.selectedNode && options.selectedNode !== "all") {
+      var selectedNode = this.surface.findNodeView(options.selectedNode);
+      if (selectedNode) {
+        this.addOverlay(selectedNode, surfaceTop);
+      } else {
+        console.error("Could not find 'selectedNode'", options.selectedNode);
+      }
+    }
     // Mark highlighted nodes
-    _.each(options.highlightedNodes, function(n) {
-      this.$('#outline_'+n).addClass('highlighted');
+    _.each(options.highlightedNodes, function(nodeId) {
+      if (!nodeId) return;
+      var highlightedNode = this.surface.findNodeView(nodeId);
+      if (highlightedNode) {
+        this.addOverlay(highlightedNode, surfaceTop);
+      } else {
+        console.error("Could not find 'highlightedNode'", nodeId);
+      }
     }, this);
   };
-
 
   // Handle Mouse down event
   // -----------------
@@ -134,7 +148,6 @@ Outline.Prototype = function() {
   this.mouseDown = function(e) {
     this._mouseDown = true;
     var y = e.pageY;
-
     if (e.target !== this.visibleArea) {
       // Jump to mousedown position
       this.offset = $(this.visibleArea).height()/2;
@@ -142,7 +155,6 @@ Outline.Prototype = function() {
     } else {
       this.offset = y - $(this.visibleArea).position().top;
     }
-
     return false;
   };
 
@@ -165,10 +177,19 @@ Outline.Prototype = function() {
     if (this._mouseDown) {
       var y = e.pageY;
       // find offset to visible-area.top
-      var scroll = (y - this.offset)*this.factor;
+      var scroll = (y-this.offset)*this.factor;
       this.surface.$el.scrollTop(scroll);
+      this.updateVisibleArea(scroll);
     }
   };
+
+  this.onScroll = function() {
+    if (this.surface) {
+      var scrollTop = this.surface.$el.scrollTop();
+      this.updateVisibleArea(scrollTop);
+    }
+  };
+
 };
 
 Outline.Prototype.prototype = View.prototype;

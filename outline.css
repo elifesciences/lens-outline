@@ -33,6 +33,11 @@ Outline
   display: block;
 }
 
+.lens-outline .node.overlay {
+  position: absolute;
+  min-height: 2px;
+}
+
 .lens-outline .visible-area {
   position: absolute;
   cursor: pointer;
@@ -88,30 +93,28 @@ Outline
 
 /* Greenish highlighted nodes (figures) */
 
-.lens-outline[data-highlight-class=figures] .node.highlighted,
-.lens-outline[data-highlight-class=math] .node.highlighted {
+.lens-outline[data-highlight-class=figures] .overlay,
+.lens-outline[data-highlight-class=math] .overlay {
   opacity: 0.7;
   background: rgba(145, 187, 4, 1);
 }
 
-.lens-outline[data-highlight-class=figures] .node.selected,
-.lens-outline[data-highlight-class=math] .node.selected {
+.lens-outline[data-highlight-class=figures] .overlay.selected,
+.lens-outline[data-highlight-class=math] .overlay.selected {
   opacity: 1;
   background: rgba(145, 187, 4, 1);
 }
 
 /* Blueish highlighted nodes (citations) */
 
-.lens-outline[data-highlight-class=citations] .node.highlighted {
+.lens-outline[data-highlight-class=citations] .overlay {
   opacity: 0.7;
   background: rgba(11, 157, 217, 1);
 }
 
 /* Blueish highlighted nodes (citations) */
 
-.lens-outline[data-highlight-class=citations] .node.selected {
+.lens-outline[data-highlight-class=citations] .overlay.selected {
   opacity: 1;
   background: rgba(11, 157, 217, 1);
 }
-
-
