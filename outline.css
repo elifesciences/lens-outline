@@ -11,24 +11,6 @@ Outline
   bottom: 0px;
 }
 
-
-/*.lens-outline .node .arrow {
-  display: none;
-  position: absolute;
-  top: -7px;
-  left: -17px;
-
-  width: 0;
-  height: 0;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-  border-left: 8px solid black;
-}*/
-
-/*.lens-outline .node.selected .arrow {
-  display: block;
-}*/
-
 .lens-outline .node.overlay {
   position: absolute;
   min-height: 2px;
@@ -56,25 +38,18 @@ Outline
 .lens-outline .node {
   margin: 0 0px;
   width: 20px;
-  /*background: rgba(0,0,0, 1);*/
-  /*border: 1px solid #888;*/
   opacity: 0.15;
   cursor: pointer;
 }
 
 .lens-outline .node:hover {
-  /*opacity: 0.4;*/
 }
 
-/*.lens-outline .node.highlighted:hover {
-  opacity: 1.0;
-}*/
 
 .lens-outline .text {
 }
 
 .lens-outline .heading {
-  /*background: rgba(0,0,0, 1);*/
 }
 
 
@@ -85,14 +60,6 @@ Outline
 .node.highlighted {
   background: #5c6570;
   opacity: 0.7;
-}
-
-.lens-outline .node.selected-node.overlay {
-  background: rgba(0,0,0,0.5);
-  margin-left: 5px;
-  width: 10px;
-  border-radius: 5px;
-  height: 10px !important;
 }
 
 /* Greenish highlighted nodes (figures) */
