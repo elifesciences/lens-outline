@@ -70,14 +70,11 @@ Outline.Prototype = function() {
     var $el = $(el);
     var height = $el.outerHeight(true) / this.factor;
     var top = ($el.offset().top - surfaceTop) / this.factor;
-
     // HACK: make all highlights at least 3 pxls high, and centered around the desired top pos
     if (height < 3) {
       height = 3;
       top = top - 1.5 + 0.5*height;
     }
-
-    console.log("####", height);
     var $overlay = $('<div>')
       .addClass('node overlay')
       .css({
@@ -86,6 +83,7 @@ Outline.Prototype = function() {
       });
     this.overlays.push($overlay[0]);
     this.$el.append($overlay);
+    return $overlay;
   };
 
   // Update Outline
@@ -135,6 +133,18 @@ Outline.Prototype = function() {
       var highlightedNode = this.surface.findNodeView(nodeId);
       if (highlightedNode) {
         this.addOverlay(highlightedNode, surfaceTop);
+      } else {
+        console.error("Could not find 'highlightedNode'", nodeId);
+      }
+    }, this);
+
+    // Mark key nodes
+    _.each(options.keyNodes, function(nodeId) {
+      if (!nodeId) return;
+      var keyNode = this.surface.findNodeView(nodeId);
+      if (keyNode) {
+        var $el = this.addOverlay(keyNode, surfaceTop);
+        $el.addClass('key-node');
       } else {
         console.error("Could not find 'highlightedNode'", nodeId);
       }
