@@ -1,3 +1,5 @@
+**This project is deprecated**
+
 Lens.Outline
 ==============
 
